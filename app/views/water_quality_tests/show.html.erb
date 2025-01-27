@@ -1,0 +1,34 @@
+
+<h1 class="text-4xl font-bold text-center text-blue-600 mb-8">
+    Water Quality Test Measurements
+</h1>
+
+<!-- Water Quality Test Information Section -->
+<div class="bg-white p-6 rounded-lg shadow-md mb-8">
+    <h2 class="text-xl font-semibold mb-4">Water Quality Test Measurements for Sample <%= @water_quality_test.sample_id %></h2>
+    <h3 class="text-l font-semibold mb-4">Test Description: <%= @sample.description %></h3>
+
+    <%= render 'form', water_quality_test: @water_quality_test %>
+</div>
+
+<!-- Table for Concentrations -->
+<h2 class="text-xl font-semibold mb-4">Concentrations for Sample <%= @water_quality_test.sample_id %></h2>
+
+<div class="overflow-x-auto">
+    <table class="min-w-full table-auto bg-white shadow-md rounded-lg border-separate border-spacing-0">
+        <thead class="bg-blue-500 text-white">
+            <tr>
+                <th class="px-4 py-2 text-left font-semibold text-sm uppercase tracking-wider">Chemical</th>
+                <th class="px-4 py-2 text-left font-semibold text-sm uppercase tracking-wider">Concentration (mg/L)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% @concentrations.each do |concentration| %>
+                <tr class="border-b hover:bg-gray-50">
+                    <td class="px-4 py-2 text-left"><%= concentration.chemical.name %></td>
+                    <td class="px-4 py-2 text-left"><%= concentration.concentration || "N/A" %></td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+</div>

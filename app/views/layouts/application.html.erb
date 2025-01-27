@@ -4,12 +4,30 @@
     <title>AquaAwareLabTodos</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <body>
-    <%= yield %>
+  <body class="bg-gray-100 text-gray-800">
+    <div class="container mx-auto p-4">
+      <div class="flash-messages">
+        <% if flash[:notice] %>
+          <div class="flash notice bg-green-500 text-white p-4 rounded-lg shadow-md mb-4 flex items-center" style="background-color: #10b981">
+            <i class="fas fa-check-circle mr-2"></i>
+            <%= flash[:notice] %>
+          </div>
+        <% end %>
+
+        <% if flash[:alert] %>
+          <div class="flash alert text-white p-4 rounded-lg shadow-md mb-4 flex items-center" style="background-color: #e11d48">
+            <i class="fas fa-exclamation-circle mr-2"></i>
+            <%= flash[:alert] %>
+          </div>
+        <% end %>
+      </div>
+
+      <%= yield %>
+    </div>
   </body>
 </html>

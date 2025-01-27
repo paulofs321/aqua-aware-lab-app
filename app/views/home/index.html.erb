@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Water Quality Tests with Missing Data</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %> 
+    <%= stylesheet_link_tag 'application', media: 'all' %>
+  </head>
+  <body class="bg-gray-100 text-gray-800">
+    <div class="container mx-auto p-4">
+      <h1 class="text-4xl font-bold text-center text-blue-600 mb-8">
+        Water Quality Tests
+      </h1>
+
+      <% if @water_quality_tests.any? %>
+        <div class="overflow-x-auto">
+          <table class="min-w-full table-auto bg-white shadow-md rounded-lg border-separate border-spacing-0">
+            <thead class="bg-blue-500 text-white">
+              <tr>
+              <% columns_to_display = ['sample_id', 'ph', 'orp', 'uv_vis'] %>
+              
+              <% columns_to_display.each do |column_name| %> <!-- Skip 'id' or any other unwanted columns -->
+                <th class="px-4 py-2 text-left font-semibold text-sm uppercase tracking-wider">
+                  <%= column_name.humanize %>
+                </th>
+              <% end %>
+            </tr>
+            </thead>
+            <tbody>
+              <% @water_quality_tests.each do |test| %>
+              <tr>
+                <% columns_to_display.each do |column_name| %>
+                <td class="px-4 py-2 text-left">
+                  <% value = test[column_name]%>
+
+                  <% if value.nil? %>
+                    <!-- Display "N/A" for null values -->
+                    N/A
+                  <% elsif column_name == 'sample_id' %>
+                    <!-- Create a link for sample_id -->
+                    <% water_quality_test = WaterQualityTest.find_by(sample_id: value) %>
+
+                    <%= link_to "Sample #{water_quality_test.sample_id}", 
+                        water_quality_test_path(water_quality_test), 
+                        class: "text-blue-500 hover:underline" 
+                    %>
+                  <% else %>
+                    <!-- Display the value for other columns -->
+                    <%= value %>
+                  <% end %>
+                </td>
+                <% end %>
+              </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      <% else %>
+      <p class="text-center text-lg text-gray-600 mt-4">No water quality tests with missing data found.</p>
+      <% end %>
+    </div>
+  </body>
+</html>
